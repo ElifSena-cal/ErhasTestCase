@@ -1,0 +1,24 @@
+﻿@using Entities
+@model List<BasketItem>
+
+    @foreach (var item in Model.OrderBy(a=>a.Product.Name))
+{
+    var totalPrice = item.Quantity * item.Product.Price;
+
+        
+        <div class="dropdown-item">
+        <span>@item.Product.Name - @totalPrice.ToString("C") </span>
+            <div class="input-group" style="width: 100px;">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="adjustQuantity(event, '@item.Id', -1)">-</button>
+                </div>
+                <input type="text" class="form-control form-control-sm" id="@item.Id" value="@item.Quantity" readonly>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="adjustQuantity(event, '@item.Id', 1)">+</button>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" asp-action="MyBasket" asp-controller="Basket" >Sepete Git</a>
+

@@ -1,0 +1,118 @@
+﻿@using Entities.Identity
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ErhasTestCase</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+</head>
+<body>
+
+    <div id="header">
+        <div class="container">
+            <div class="pull-right">
+                <ul class="header-btns">
+                    <!-- Mobile nav toggle-->
+                    <li class="nav-toggle">
+                        <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+                    </li>
+                    <!-- / Mobile nav toggle -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- container -->
+    <!-- /HEADER -->
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- category nav -->
+                <div class="category-nav">
+                    <span class="category-header">Kategoriler <i class="fa fa-list"></i></span>
+                    @await Component.InvokeAsync("Category")
+
+                </div>
+                <!-- /category nav -->
+                <!-- menu nav -->
+                <div class="menu-nav">
+                    <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+                    <ul class="menu-list">
+                        <li class="project-name-item">
+                            <span class="project-name">E-Commerce</span>
+                        </li>
+                        <li class="nav-item dropdown" style="margin-right:15px">
+                            <a class="nav-link dropdown-toggle" href="#" id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-shopping-cart" style="font-size: 24px;"></i>
+                                <span id="cart-badge" class="cart-badge" style="position: absolute; top: -0px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;">0</span>
+                            </a>
+                            <div class="dropdown-menu" id="dropdownMenu" aria-labelledby="cartDropdown">
+                                <!-- Dropdown Menu -->
+                                @await Component.InvokeAsync("Basket")
+                            </div>
+                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li><a asp-controller="Account" asp-action="MyProfile" style="text-decoration:none">@User.Identity.Name</a></li>
+                            <li><a asp-controller="Account" asp-action="Logout" style="text-decoration:none">Çıkış Yap</a></li>
+                        }
+
+                        else
+                        {
+                            <li class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" style="background:#F8694A" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Hesabım
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a asp-controller="Account" asp-action="Login" class="dropdown-item">Giriş Yap</a>
+                                    <a asp-controller="Account" asp-action="Register" class="dropdown-item">Kaydol</a>
+                                </div>
+                            </li>
+
+
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+
+    <!-- /NAVIGATION -->
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ErhasTestCase - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        updateCartBadge();
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

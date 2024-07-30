@@ -1,0 +1,11 @@
+﻿@using Entities
+@model List<Category>
+
+<ul class="category-list">
+    @foreach (var category in Model)
+    {
+        <li>
+            <a href="javascript:void(0);" onclick="loadProducts('@category.Id')" style="text-decoration:none"> @category.Name</a>
+        </li>
+    }
+</ul>
